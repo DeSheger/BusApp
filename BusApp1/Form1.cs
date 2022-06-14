@@ -37,9 +37,9 @@ namespace BusApp1
             else
             {
                 ticket.Name = textBoxName.Text;
-                passenger.Name = ticket.Name;
+                
                 ticket.PhoneNumber = PhoneNumber.Text;
-                passenger.PhoneNumber = ticket.PhoneNumber;
+                
 
                 ticket.To = comboboBoxDestination.Text;
                 ticket.DateOfJourney = dateTimePickerDateOfJourney.Value;
@@ -135,7 +135,7 @@ namespace BusApp1
             textBoxSubmittedNOP.Text = ticket.NumberOfPassengers.ToString();
             textBoxSubmittedAmountPaid.Text = textBoxTotalPrice.Text;
             tickets.Add(ticket);
-            passangers.Add(passenger);
+            
             ticket = new Ticket(ticket.Name, ticket.PhoneNumber);
             int num = (int)MaterialMessageBox.Show("Bilet został opłacony.\nMiłej podrózy");
         }
