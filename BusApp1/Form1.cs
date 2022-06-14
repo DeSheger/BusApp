@@ -13,6 +13,8 @@ namespace BusApp1
         public List<string> DepartureTime;
         public Ticket ticket;
         public List<Ticket> tickets;
+        public Passenger passenger;
+        public List<Passenger> passangers;
 
 
         public Form1()
@@ -35,6 +37,10 @@ namespace BusApp1
             else
             {
                 ticket.Name = textBoxName.Text;
+                passenger.Name = ticket.Name;
+                ticket.PhoneNumber = PhoneNumber.Text;
+                passenger.PhoneNumber = ticket.PhoneNumber;
+
                 ticket.To = comboboBoxDestination.Text;
                 ticket.DateOfJourney = dateTimePickerDateOfJourney.Value;
                 ticket.DepartureTime = comboboxDeparture.Text;
@@ -61,6 +67,10 @@ namespace BusApp1
             List<string> stringList = new List<string>();
             if (string.IsNullOrWhiteSpace(textBoxName.Text))
                 stringList.Add("Podaj imię");
+            if (string.IsNullOrWhiteSpace(textLabel19.Text))
+            {
+                stringList.Add("Podaj numer telefonu");
+            }
             if (string.IsNullOrWhiteSpace(textBoxNoOfPassengers.Text))
             {
                 stringList.Add("Podaj ilość pasażerów");
@@ -83,13 +93,14 @@ namespace BusApp1
         private void buttonReset_Click(object sender, EventArgs e)
         {
             ClearFields();
-            ticket = new Ticket();
+            ticket = new Ticket(null, null);
 
         }
 
         public void ClearFields()
         {
             textBoxName.Text = string.Empty;
+            PhoneNumber.Text = string.Empty;
             comboboBoxDestination.Text = Destinations[0];
             comboboxDeparture.Text = DepartureTime[0];
             radioButtonSingle.Checked = false;
@@ -98,6 +109,7 @@ namespace BusApp1
             radioButtonFirstClass.Checked = false;
             textBoxNoOfPassengers.Text = string.Empty;
             textBoxSubmittedName.Text = string.Empty;
+            submittedPhoneNumber.Text = string.Empty;
             textBoxSubmittedFrom.Text = string.Empty;
             textBoxSubmittedTo.Text = string.Empty;
             textBoxSubmittedDOJ.Text = string.Empty;
@@ -113,6 +125,7 @@ namespace BusApp1
             if (string.IsNullOrEmpty(textBoxName.Text))
                 return;
             textBoxSubmittedName.Text = ticket.Name;
+            submittedPhoneNumber.Text = ticket.PhoneNumber;
             textBoxSubmittedFrom.Text = ticket.From;
             textBoxSubmittedTo.Text = ticket.To;
             textBoxSubmittedDOJ.Text = ticket.DateOfJourney.ToString("dddd, dd MMMM yyyy");
@@ -122,13 +135,14 @@ namespace BusApp1
             textBoxSubmittedNOP.Text = ticket.NumberOfPassengers.ToString();
             textBoxSubmittedAmountPaid.Text = textBoxTotalPrice.Text;
             tickets.Add(ticket);
-            ticket = new Ticket();
+            passangers.Add(passenger);
+            ticket = new Ticket(ticket.Name, ticket.PhoneNumber);
             int num = (int)MaterialMessageBox.Show("Bilet został opłacony.\nMiłej podrózy");
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            ticket = new Ticket();
+            ticket = new Ticket(null, null);
             tickets = new List<Ticket>();
             Destinations = new List<string>()
             {
@@ -159,6 +173,24 @@ namespace BusApp1
             {
                 MaterialMessageBox.Show("Nie ma jeszcze biletów", true, FlexibleMaterialForm.ButtonsPosition.Right);
             }
+
+        }
+
+        private void buttonPassangersList_Click(object sender, EventArgs e)
+        {
+            if (this.passangers.Count > 0)
+            {
+                new TicketListForm(this.tickets).ShowDialog();
+            }
+            else
+            {
+                MaterialMessageBox.Show("Nie ma jeszcze pasazerow", true, FlexibleMaterialForm.ButtonsPosition.Right);
+            }
+
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        {
 
         }
     }

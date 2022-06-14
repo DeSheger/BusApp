@@ -8,9 +8,11 @@ using BusApp1.Interfaces;
 
 namespace BusApp1.Models
 {
-    public class Ticket : ITickets
+    public class Ticket : Passenger, ITickets
     {
         public string Name { get; set; }
+
+        public string PhoneNumber { get; set; }
 
         public string From { get; set; }
 
@@ -35,8 +37,10 @@ namespace BusApp1.Models
 
         public string AmountPaid { set; get; }
 
-        public Ticket()
+        public Ticket(string name, string phoneNumber) : base(name, phoneNumber)
         {
+            Name = name;
+            PhoneNumber = phoneNumber;
             this.From = "Chorzow";
             Ticket.Price = 2;
         }
